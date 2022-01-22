@@ -120,7 +120,7 @@ namespace UndergroundPolice
             var fatBlock = block.FatBlock;
             if (!IsProhibitedUnderground(fatBlock)) return;
 
-            MyLog.Default.Info($"woo woo {fatBlock.GetType()}");
+            //MyLog.Default.Info($"woo woo {fatBlock.GetType()}");
 
             if (!IsInVoxel(block)) return;
 
