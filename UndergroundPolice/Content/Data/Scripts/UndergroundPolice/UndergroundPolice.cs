@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Sandbox.Game;
 using Sandbox.Game.Entities;
 using Sandbox.ModAPI;
 using VRage.Game.Components;
 using VRage.Game.ModAPI;
 using VRage.ModAPI;
-using VRage.Utils;
 using VRageMath;
 
 namespace UndergroundPolice
@@ -119,10 +119,12 @@ namespace UndergroundPolice
         {
             var fatBlock = block.FatBlock;
             if (!IsProhibitedUnderground(fatBlock)) return;
-
-            //MyLog.Default.Info($"woo woo {fatBlock.GetType()}");
-
             if (!IsInVoxel(block)) return;
+
+            if (block.OwnerId != 0)
+            {
+                MyVisualScriptLogicProvider.SendChatMessage("You cannot build this block near the voxel body", "UNDERGROUND POLICE", block.OwnerId, "Red");
+            }
 
             block.CubeGrid.RemoveBlock(block);
         }
@@ -161,7 +163,7 @@ namespace UndergroundPolice
                 if (_tmpVoxels.Count == 0) return false;
 
                 var gridSize = block.CubeGrid.GridSize;
-                var boundingBoxD = new BoundingBoxD(gridSize * ((Vector3D) block.Min - 0.5), gridSize * ((Vector3D) block.Max + 0.5));
+                var boundingBoxD = new BoundingBoxD(gridSize * ((Vector3D)block.Min - 0.5), gridSize * ((Vector3D)block.Max + 0.5));
                 var worldMatrix = block.CubeGrid.WorldMatrix;
                 foreach (var voxel in _tmpVoxels)
                 {
